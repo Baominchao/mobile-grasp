@@ -1,0 +1,26 @@
+<launch>
+    <!-- 一键打开仿真 -->
+    <!-- 1-打开joint_trajectory_action_server服务 -->
+    <!-- 2-电机使能 -->
+    <!-- 启动带夹爪的rivz仿真 -->
+    <!-- 是否启动仿真 -->
+    <arg name="sim" default="false" />
+    <arg name="electric_gripper" default="false"/>
+
+    <group if="$(arg sim)">
+        <include file="$(find sawyer_gazebo)/launch/sawyer_world.launch"/>
+    </group>
+    <!--include file="$(find realsense2_camera)/launch/rs_aligned_depth.launch"/-->
+    <node pkg="intera_interface" name="joint_trajectory_action_server" type="joint_trajectory_action_server.py" output="screen"/>
+    <node pkg="intera_interface" name="enable_robot" type = "enable_robot.py" args="-e -s" output="screen"/>
+    <!--include file="$(find sawyer_moveit_config)/launch/sawyer_moveit.launch">
+        <arg name="electric_gripper" value="$(arg electric_gripper)"/>
+    </include-->
+    <!--node pkg="baxter_bringup" name="remap" type="remap" output="screen"/-->
+    <!--include file="$(find baxter_finger)/src/finger/lib/handcom.launch"/-->
+
+    <!--node pkg="king" name="remap" type="remap.py" output="screen"/-->
+
+    <!--include file="$(find rsk_movebase_nav)/launch/rsk_navigation.launch"/-->
+    
+</launch>
